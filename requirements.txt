@@ -1,0 +1,4 @@
+Flask==3.0.0
+flask-cors==4.0.0
+fonttools==4.60.1
+brotli==1.2.0

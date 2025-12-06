@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roboto Flex Variable Font Playground</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Preview Area -->
+        <div class="preview-area">
+            <div class="theme-switcher">
+                <button class="theme-btn" data-theme="dark" title="Dark theme"></button>
+                <button class="theme-btn" data-theme="light" title="Light theme"></button>
+                <button class="theme-btn" data-theme="purple" title="Purple theme"></button>
+            </div>
+            <textarea id="preview-text" class="preview-textarea">The Quick Brown Fox Jumps Over The Lazy Dog
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789</textarea>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <h2>Font Settings</h2>
+                    <button id="reset-all-btn" class="reset-all-btn" title="Reset all to defaults">↻ Reset All</button>
+                </div>
+
+                <!-- Preview Settings -->
+                <div class="controls-section">
+                    <h3>Preview</h3>
+
+                    <div class="control-group">
+                        <label for="size">Size</label>
+                        <div class="slider-container">
+                            <input type="range" id="size" min="12" max="256" value="22" step="1">
+                            <input type="number" class="value-input" id="size-value" min="12" max="256" value="22">
+                            <button class="reset-btn" data-param="size" data-default="22"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="letter-spacing">Letter Spacing</label>
+                        <div class="slider-container">
+                            <input type="range" id="letter-spacing" min="-10" max="10" value="0" step="0.1">
+                            <input type="number" class="value-input" id="letter-spacing-value" min="-10" max="10"
+                                value="0" step="0.1">
+                            <button class="reset-btn" data-param="letter-spacing" data-default="0"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="line-height">Line Height</label>
+                        <div class="slider-container">
+                            <input type="range" id="line-height" min="90" max="200" value="120" step="1">
+                            <input type="number" class="value-input" id="line-height-value" min="90" max="200"
+                                value="120">
+                            <button class="reset-btn" data-param="line-height" data-default="120"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Variation Axes -->
+                <div class="controls-section">
+                    <h3>Variation Axes</h3>
+                    <div class="control-group">
+                        <label for="opsz">
+                            Optical Size (opsz)
+                            <label class="auto-label-wrapper">
+                                <input type="checkbox" id="opsz-auto" class="auto-checkbox">
+                                <span class="auto-label">Auto</span>
+                            </label>
+                        </label>
+                        <div class="slider-container">
+                            <input type="range" id="opsz" min="8" max="144" value="14" step="1">
+                            <input type="number" class="value-input" id="opsz-value" min="8" max="144" value="14">
+                            <button class="reset-btn" data-param="opsz" data-default="14"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="wght">Weight (wght)</label>
+                        <div class="slider-container">
+                            <input type="range" id="wght" min="100" max="1000" value="400" step="1">
+                            <input type="number" class="value-input" id="wght-value" min="100" max="1000" value="400">
+                            <button class="reset-btn" data-param="wght" data-default="400"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="GRAD">Grade (GRAD)</label>
+                        <div class="slider-container">
+                            <input type="range" id="GRAD" min="-200" max="150" value="0" step="1">
+                            <input type="number" class="value-input" id="GRAD-value" min="-200" max="150" value="0">
+                            <button class="reset-btn" data-param="GRAD" data-default="0"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="wdth">Width (wdth)</label>
+                        <div class="slider-container">
+                            <input type="range" id="wdth" min="25" max="151" value="100" step="1">
+                            <input type="number" class="value-input" id="wdth-value" min="25" max="151" value="100">
+                            <button class="reset-btn" data-param="wdth" data-default="100"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="slnt">Slant (slnt)</label>
+                        <div class="slider-container">
+                            <input type="range" id="slnt" min="-10" max="0" value="0" step="0.1">
+                            <input type="number" class="value-input" id="slnt-value" min="-10" max="0" value="0"
+                                step="0.1">
+                            <button class="reset-btn" data-param="slnt" data-default="0"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="XOPQ">X Opaque (XOPQ)</label>
+                        <div class="slider-container">
+                            <input type="range" id="XOPQ" min="27" max="175" value="96" step="1">
+                            <input type="number" class="value-input" id="XOPQ-value" min="27" max="175" value="96">
+                            <button class="reset-btn" data-param="XOPQ" data-default="96"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="YOPQ">Y Opaque (YOPQ)</label>
+                        <div class="slider-container">
+                            <input type="range" id="YOPQ" min="25" max="135" value="79" step="1">
+                            <input type="number" class="value-input" id="YOPQ-value" min="25" max="135" value="79">
+                            <button class="reset-btn" data-param="YOPQ" data-default="79"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="XTRA">X Transparent (XTRA)</label>
+                        <div class="slider-container">
+                            <input type="range" id="XTRA" min="323" max="603" value="468" step="1">
+                            <input type="number" class="value-input" id="XTRA-value" min="323" max="603" value="468">
+                            <button class="reset-btn" data-param="XTRA" data-default="468"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="YTUC">Y Trans. Uppercase (YTUC)</label>
+                        <div class="slider-container">
+                            <input type="range" id="YTUC" min="528" max="760" value="712" step="1">
+                            <input type="number" class="value-input" id="YTUC-value" min="528" max="760" value="712">
+                            <button class="reset-btn" data-param="YTUC" data-default="712"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="YTLC">Y Trans. Lowercase (YTLC)</label>
+                        <div class="slider-container">
+                            <input type="range" id="YTLC" min="416" max="570" value="514" step="1">
+                            <input type="number" class="value-input" id="YTLC-value" min="416" max="570" value="514">
+                            <button class="reset-btn" data-param="YTLC" data-default="514"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="YTAS">Y Trans. Ascender (YTAS)</label>
+                        <div class="slider-container">
+                            <input type="range" id="YTAS" min="649" max="854" value="750" step="1">
+                            <input type="number" class="value-input" id="YTAS-value" min="649" max="854" value="750">
+                            <button class="reset-btn" data-param="YTAS" data-default="750"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="YTDE">Y Trans. Descender (YTDE)</label>
+                        <div class="slider-container">
+                            <input type="range" id="YTDE" min="-305" max="-98" value="-203" step="1">
+                            <input type="number" class="value-input" id="YTDE-value" min="-305" max="-98" value="-203">
+                            <button class="reset-btn" data-param="YTDE" data-default="-203"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="YTFI">Y Trans. Figure (YTFI)</label>
+                        <div class="slider-container">
+                            <input type="range" id="YTFI" min="560" max="788" value="738" step="1">
+                            <input type="number" class="value-input" id="YTFI-value" min="560" max="788" value="738">
+                            <button class="reset-btn" data-param="YTFI" data-default="738"
+                                title="Reset to default">↻</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OpenType Features -->
+                <div class="controls-section">
+                    <h3>OpenType Features</h3>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="liga" checked>
+                            <span>Standard Ligatures (liga)</span>
+                        </label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="locl">
+                            <span>Localized Forms (locl)</span>
+                        </label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="pnum">
+                            <span>Proportional Numbers (pnum)</span>
+                        </label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rvrn" checked>
+                            <span>Required Variation Alternates (rvrn)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Download Button (sticky) -->
+                <div class="download-container">
+                    <div class="download-buttons">
+                        <button id="download-btn"><span class="btn-text">Download</span></button>
+                        <button id="download-woff2-btn" class="download-woff2-btn"><span
+                                class="btn-text">WOFF2</span></button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -2,9 +2,7 @@
 
 Interactive web application for creating static font instances from the Roboto Flex variable font file. Adjust 13 variation axes in real-time, then download your custom .ttf and .woff2 files.
 
-<video width="590" height="454" controls>
-  <source src="demo.mov" type="video/mp4">
-</video>
+
 
 Warning:\
 Starting from Dec 9, 2025, I’m using a modified font file in which I added automatic height adjustment for characters like `-, –, +`, bringing them to the same level as lowercase letters. As far as I can tell, nothing broke, but if you notice anything strange, please message me on [Telegram](https://t.me/sugrarin).
@@ -40,7 +38,7 @@ The server will start on `http://localhost:5000`
 open index.html
 ```
 
-Or navigate to: `file:///Users/timur/Code/flex-playground/index.html`
+Or navigate to: `../flex-playground/index.html`
 
 ## Variation Axes
 

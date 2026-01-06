@@ -19,10 +19,19 @@ def generate_font():
     try:
         data = request.json
         axes = data.get('axes', {})
-        features = data.get('features', {})
+        font_filename = data.get('font')
+        
+        if not font_filename:
+             return jsonify({'error': 'No font specified'}), 400
+             
+        # Security check: ensure only filename is passed, no paths
+        font_filename = os.path.basename(font_filename)
+        
+        if not os.path.exists(font_filename):
+            return jsonify({'error': f'Font file {font_filename} not found'}), 404
         
         # Load the variable font
-        font = ttLib.TTFont(FONT_PATH)
+        font = ttLib.TTFont(font_filename)
         
         # Create instance with specified axis values
         # Convert axis values to the format expected by instancer
@@ -40,11 +49,14 @@ def generate_font():
         font.close()
         instance_font.close()
         
+        base_name = os.path.splitext(font_filename)[0]
+        download_name = f'{base_name}-Custom.ttf'
+        
         return send_file(
             buffer,
             mimetype='font/ttf',
             as_attachment=True,
-            download_name='Roboto-Flex-Custom.ttf'
+            download_name=download_name
         )
     
     except Exception as e:
@@ -56,10 +68,19 @@ def generate_font_woff2():
     try:
         data = request.json
         axes = data.get('axes', {})
-        features = data.get('features', {})
+        font_filename = data.get('font')
+        
+        if not font_filename:
+             return jsonify({'error': 'No font specified'}), 400
+             
+        # Security check: ensure only filename is passed, no paths
+        font_filename = os.path.basename(font_filename)
+        
+        if not os.path.exists(font_filename):
+            return jsonify({'error': f'Font file {font_filename} not found'}), 404
         
         # Load the variable font
-        font = ttLib.TTFont(FONT_PATH)
+        font = ttLib.TTFont(font_filename)
         
         # Create instance with specified axis values
         axis_limits = {axis: value for axis, value in axes.items()}
@@ -77,11 +98,14 @@ def generate_font_woff2():
         font.close()
         instance_font.close()
         
+        base_name = os.path.splitext(font_filename)[0]
+        download_name = f'{base_name}-Custom.woff2'
+        
         return send_file(
             buffer,
             mimetype='font/woff2',
             as_attachment=True,
-            download_name='Roboto-Flex-Custom.woff2'
+            download_name=download_name
         )
     
     except Exception as e:

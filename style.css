@@ -5,6 +5,20 @@
     font-stretch: 25% 151%;
 }
 
+@font-face {
+    font-family: 'Google Sans Flex';
+    src: url('Google-Sans-Flex-Variable.ttf') format('truetype-variations');
+    font-weight: 100 1000;
+    font-stretch: 25% 151%;
+}
+
+@font-face {
+    font-family: 'Martian Grotesk';
+    src: url('Martian-Grotesk-Variable.ttf') format('truetype-variations');
+    font-weight: 100 1000;
+    font-stretch: 75% 200%;
+}
+
 :root {
     --bg-preview: #090909;
     --bg-sidebar: #1B1B1B;
@@ -133,7 +147,7 @@ body {
 }
 
 .sidebar-content {
-    padding: 20px 20px 0;
+    padding: 16px 16px 0;
     /* Space for sticky button */
 }
 
@@ -141,6 +155,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 4px;
     margin-bottom: 20px;
 }
 
@@ -151,19 +166,46 @@ body {
     color: var(--text-color);
 }
 
-.reset-all-btn {
-    padding: 4px 8px;
-    font-size: 11px;
-    background: transparent;
+/* Font Selector */
+.font-selector {
+    font-family: inherit;
+    flex: 1;
+    height: 32px;
+    padding: 0 28px 0 12px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999999' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+.reset-all-btn {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
     color: var(--text-color);
     cursor: pointer;
     white-space: nowrap;
+    transition: all 0.2s;
 }
 
 .reset-all-btn:hover {
     background: var(--text-color);
     color: var(--bg-sidebar);
+    border-color: var(--text-color);
 }
 
 .controls-section {
@@ -217,6 +259,21 @@ body {
     cursor: pointer;
 }
 
+/* Info Icon Tooltip */
+.info-icon {
+    display: inline-block;
+    margin-left: 0px;
+    font-size: 12px;
+    opacity: 0.5;
+    cursor: help;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.info-icon:hover {
+    opacity: 1;
+    transition-delay: 0.1s;
+}
+
 .slider-container {
     display: flex;
     align-items: center;
@@ -226,37 +283,49 @@ body {
 /* Sliders */
 input[type="range"] {
     flex: 1;
-    height: 4px;
+    height: 32px;
     background: var(--border-color);
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
+    border-radius: 4px;
+    position: relative;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 28px;
     background: var(--text-color);
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 2px;
 }
 
 input[type="range"]::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 28px;
     background: var(--text-color);
     cursor: pointer;
     border: none;
-    border-radius: 50%;
+    border-radius: 2px;
+}
+
+/* Firefox track styling */
+input[type="range"]::-moz-range-track {
+    height: 32px;
+    background: var(--border-color);
+    border-radius: 4px;
 }
 
 /* Value Input */
 .value-input {
     width: 50px;
-    padding: 4px 6px;
+    height: 32px;
+    padding: 0 6px;
     font-size: 12px;
-    background: var(--input-bg);
+    font-family: ui-monospace, 'SF Mono', Monaco, 'Cascadia Mono', 'Roboto Mono', Consolas, monospace;
+    background: var(--border-color);
     border: none;
     border-radius: 4px;
     color: var(--text-color);
@@ -278,17 +347,23 @@ input[type="range"]::-moz-range-thumb {
     color-scheme: light;
 }
 
-/* Style number input spinners */
+/* Hide number input spinners */
 .value-input::-webkit-inner-spin-button,
 .value-input::-webkit-outer-spin-button {
-    opacity: 1;
-    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.value-input {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 /* Reset Button */
 .reset-btn {
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
     padding: 0;
     background: var(--input-bg);
     border: none;
@@ -307,7 +382,7 @@ input[type="range"]::-moz-range-thumb {
     color: var(--bg-sidebar);
 }
 
-/* Checkboxes */
+/* Toggle Switches */
 .checkbox-group {
     margin-bottom: 8px;
 }
@@ -319,17 +394,56 @@ input[type="range"]::-moz-range-thumb {
     padding: 4px 0;
 }
 
-.checkbox-label input[type="checkbox"] {
-    width: 14px;
-    height: 14px;
-    margin-right: 8px;
-    cursor: pointer;
-    accent-color: var(--text-color);
-}
-
 .checkbox-label span {
     font-size: 12px;
     color: var(--text-color);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: .2s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--text-color);
+    transition: .2s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: var(--text-color);
+}
+
+input:checked+.slider:before {
+    transform: translateX(16px);
+    background-color: var(--bg-sidebar);
 }
 
 /* Download Container & Button */
@@ -349,7 +463,7 @@ input[type="range"]::-moz-range-thumb {
 
 button#download-btn {
     flex: 1;
-    padding: 16px;
+    padding: 12px 16px;
     background: var(--text-color);
     border: none;
     color: var(--bg-sidebar);
@@ -361,7 +475,7 @@ button#download-btn {
 }
 
 .download-woff2-btn {
-    padding: 16px 20px;
+    padding: 12px 20px;
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-color);

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roboto Flex Variable Font Playground</title>
+    <title>Variable Fonts Playground</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.ico">
 </head>
@@ -18,21 +18,42 @@
                 <button class="theme-btn" data-theme="light" title="Light theme"></button>
                 <button class="theme-btn" data-theme="purple" title="Purple theme"></button>
             </div>
-            <textarea id="preview-text" class="preview-textarea" spellcheck="false">The Quick Brown Fox Jumps Over The Lazy Dog
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <textarea id="preview-text" class="preview-textarea" spellcheck="false">Variable fonts have hidden powers. Many detailed axes cannot be controlled via standard CSS. Use this playground to master fonts like Roboto Flex by adjusting hidden parameters—such as Thick Stroke (XOPQ), Counter Width (XTRA), or Ascender Height (YTAS).
+            
+Need a specific cut—say, exactly Width 112 and Weight 350—without the heavy file size? Freeze your settings here and download a custom font file with your exact look baked in.
 
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
 abcdefghijklmnopqrstuvwxyz
-0123456789</textarea>
+0123456789!?.
+Frame  Group  Feedback  Reset
+Day day  Month month  Year year
+Size  Overlay  Grids  Cursors
+Background  Desktop App  Lamp  Preferences
+Rectangle  Ellipsis  Component  Settings
+Pass–Through  Spacing  Help  Tutorials  Release Notes
+iOS Android Apple macOS Microsoft Windows  Onboarding
+12.4 pt  64%  90px  45 kg  $99 €64  £7
+
+0 1 2 3 4 5 6 7 8 9  7×4  3/4  7÷8  3°
+#80A6F3  #FFFFFF  #000000
+
+The quick brown fox jumps over the lazy dog
+LAYER  TEXT  FILL  STROKE  EFFECTS  EXPORT
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+nanbncndnenfngnhninjnknlnmnnonpnqnrn
+HAHBHCHDHEHFHGHHIHJHKHLHMHNHOHPHQHRH</textarea>
         </div>
 
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-content">
                 <div class="sidebar-header">
-                    <h2>Font Settings</h2>
-                    <button id="reset-all-btn" class="reset-all-btn" title="Reset all to defaults">↻ Reset All</button>
+                    <select id="font-selector" class="font-selector">
+                        <option value="google-sans-flex">Google Sans Flex</option>
+                        <option value="roboto-flex">Roboto Flex</option>
+                        <option value="martian-grotesk">Martian Grotesk</option>
+                    </select>
+                    <button id="reset-all-btn" class="reset-all-btn" title="Reset all to defaults">↻ ALL</button>
                 </div>
 
                 <!-- Preview Settings -->
@@ -78,6 +99,8 @@ abcdefghijklmnopqrstuvwxyz
                     <div class="control-group">
                         <label for="opsz">
                             Optical Size (opsz)
+                            <span class="info-icon"
+                                title="Adapt the style to specific text sizes. At smaller sizes, letters typically become optimized for more legibility. At larger sizes, optimized for headlines, with more extreme weights and widths. In CSS this axis is activated automatically when it is available.">ⓘ</span>
                             <label class="auto-label-wrapper">
                                 <input type="checkbox" id="opsz-auto" class="auto-checkbox">
                                 <span class="auto-label">Auto</span>
@@ -92,7 +115,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="wght">Weight (wght)</label>
+                        <label for="wght">Weight (wght)<span class="info-icon"
+                                title="Adjust the style from lighter to bolder in typographic color, by varying stroke weights, spacing and kerning, and other aspects of the type. This typically changes overall width, and so may be used in conjunction with Width and Grade axes.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="wght" min="100" max="1000" value="400" step="1">
                             <input type="number" class="value-input" id="wght-value" min="100" max="1000" value="400">
@@ -102,7 +126,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="GRAD">Grade (GRAD)</label>
+                        <label for="GRAD">Grade (GRAD)<span class="info-icon"
+                                title="Finesse the style from lighter to bolder in typographic color, without any changes overall width, line breaks or page layout. Negative grade makes the style lighter, while positive grade makes it bolder. The units are the same as in the Weight axis.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="GRAD" min="-200" max="150" value="0" step="1">
                             <input type="number" class="value-input" id="GRAD-value" min="-200" max="150" value="0">
@@ -112,7 +137,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="wdth">Width (wdth)</label>
+                        <label for="wdth">Width (wdth)<span class="info-icon"
+                                title="Adjust the style from narrower to wider, by varying the proportions of counters, strokes, spacing and kerning, and other aspects of the type. This typically changes the typographic color in a subtle way, and so may be used in conjunction with Weight and Grade axes.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="wdth" min="25" max="151" value="100" step="1">
                             <input type="number" class="value-input" id="wdth-value" min="25" max="151" value="100">
@@ -122,7 +148,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="slnt">Slant (slnt)</label>
+                        <label for="slnt">Slant (slnt)<span class="info-icon"
+                                title="Adjust the style from upright to slanted. Negative values produce right-leaning forms, also known to typographers as an 'oblique' style. Positive values produce left-leaning forms, also called a 'backslanted' or 'reverse oblique' style.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="slnt" min="-10" max="0" value="0" step="0.1">
                             <input type="number" class="value-input" id="slnt-value" min="-10" max="0" value="0"
@@ -133,7 +160,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="XOPQ">X Opaque (XOPQ)</label>
+                        <label for="XOPQ">Thick Stroke (XOPQ)<span class="info-icon"
+                                title="A parametric axis for varying thick stroke weights, such as stems.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="XOPQ" min="27" max="175" value="96" step="1">
                             <input type="number" class="value-input" id="XOPQ-value" min="27" max="175" value="96">
@@ -143,7 +171,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="YOPQ">Y Opaque (YOPQ)</label>
+                        <label for="YOPQ">Thin Stroke (YOPQ)<span class="info-icon"
+                                title="A parametric axis for varying thin stroke weights, such as bars and hairlines.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="YOPQ" min="25" max="135" value="79" step="1">
                             <input type="number" class="value-input" id="YOPQ-value" min="25" max="135" value="79">
@@ -153,7 +182,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="XTRA">X Transparent (XTRA)</label>
+                        <label for="XTRA">Counter Width (XTRA)<span class="info-icon"
+                                title="A parametric axis for varying counter widths in the X dimension.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="XTRA" min="323" max="603" value="468" step="1">
                             <input type="number" class="value-input" id="XTRA-value" min="323" max="603" value="468">
@@ -163,7 +193,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="YTUC">Y Trans. Uppercase (YTUC)</label>
+                        <label for="YTUC">Uppercase Height (YTUC)<span class="info-icon"
+                                title="A parametric axis for varying the heights of uppercase letterforms.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="YTUC" min="528" max="760" value="712" step="1">
                             <input type="number" class="value-input" id="YTUC-value" min="528" max="760" value="712">
@@ -173,7 +204,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="YTLC">Y Trans. Lowercase (YTLC)</label>
+                        <label for="YTLC">Lowercase Height (YTLC)<span class="info-icon"
+                                title="A parametric axis for varying the height of the lowercase.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="YTLC" min="416" max="570" value="514" step="1">
                             <input type="number" class="value-input" id="YTLC-value" min="416" max="570" value="514">
@@ -183,7 +215,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="YTAS">Y Trans. Ascender (YTAS)</label>
+                        <label for="YTAS">Ascender Height (YTAS)<span class="info-icon"
+                                title="A parametric axis for varying the height of lowercase ascenders.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="YTAS" min="649" max="854" value="750" step="1">
                             <input type="number" class="value-input" id="YTAS-value" min="649" max="854" value="750">
@@ -193,7 +226,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="YTDE">Y Trans. Descender (YTDE)</label>
+                        <label for="YTDE">Descender Depth (YTDE)<span class="info-icon"
+                                title="A parametric axis for varying the depth of lowercase descenders.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="YTDE" min="-305" max="-98" value="-203" step="1">
                             <input type="number" class="value-input" id="YTDE-value" min="-305" max="-98" value="-203">
@@ -203,7 +237,8 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
 
                     <div class="control-group">
-                        <label for="YTFI">Y Trans. Figure (YTFI)</label>
+                        <label for="YTFI">Figure Height (YTFI)<span class="info-icon"
+                                title="A parametric axis for varying the height of figures.">ⓘ</span></label>
                         <div class="slider-container">
                             <input type="range" id="YTFI" min="560" max="788" value="738" step="1">
                             <input type="number" class="value-input" id="YTFI-value" min="560" max="788" value="738">
@@ -213,43 +248,12 @@ abcdefghijklmnopqrstuvwxyz
                     </div>
                 </div>
 
-                <!-- OpenType Features -->
-                <div class="controls-section">
-                    <h3>OpenType Features</h3>
 
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="liga" checked>
-                            <span>Standard Ligatures (liga)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="locl">
-                            <span>Localized Forms (locl)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="pnum">
-                            <span>Proportional Numbers (pnum)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="rvrn" checked>
-                            <span>Required Variation Alternates (rvrn)</span>
-                        </label>
-                    </div>
-                </div>
 
                 <!-- Download Button (sticky) -->
                 <div class="download-container">
                     <div class="download-buttons">
-                        <button id="download-btn"><span class="btn-text">Download</span></button>
+                        <button id="download-btn"><span class="btn-text">Download TTF</span></button>
                         <button id="download-woff2-btn" class="download-woff2-btn"><span
                                 class="btn-text">WOFF2</span></button>
                     </div>
@@ -258,7 +262,7 @@ abcdefghijklmnopqrstuvwxyz
         </aside>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=2"></script>
 </body>
 
 </html>

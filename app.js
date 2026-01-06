@@ -1,19 +1,51 @@
-// Default values for axes (font variations)
-const axisDefaults = {
-    opsz: 14,
-    wght: 400,
-    GRAD: 0,
-    wdth: 100,
-    slnt: 0,
-    XOPQ: 96,
-    YOPQ: 79,
-    XTRA: 468,
-    YTUC: 712,
-    YTLC: 514,
-    YTAS: 750,
-    YTDE: -203,
-    YTFI: 738
+// Font configurations with axes and ranges for each font
+const fontConfigurations = {
+    'roboto-flex': {
+        name: 'Roboto Flex',
+        fontFamily: 'Roboto Flex',
+        filename: 'Roboto-Flex-Variable.ttf',
+        axes: {
+            opsz: { min: 8, max: 144, default: 14, step: 1 },
+            wght: { min: 100, max: 1000, default: 400, step: 1 },
+            GRAD: { min: -200, max: 150, default: 0, step: 1 },
+            wdth: { min: 25, max: 151, default: 100, step: 1 },
+            slnt: { min: -10, max: 0, default: 0, step: 0.1 },
+            XOPQ: { min: 27, max: 175, default: 96, step: 1 },
+            YOPQ: { min: 25, max: 135, default: 79, step: 1 },
+            XTRA: { min: 323, max: 603, default: 468, step: 1 },
+            YTUC: { min: 528, max: 760, default: 712, step: 1 },
+            YTLC: { min: 416, max: 570, default: 514, step: 1 },
+            YTAS: { min: 649, max: 854, default: 750, step: 1 },
+            YTDE: { min: -305, max: -98, default: -203, step: 1 },
+            YTFI: { min: 560, max: 788, default: 738, step: 1 }
+        }
+    },
+    'google-sans-flex': {
+        name: 'Google Sans Flex',
+        fontFamily: 'Google Sans Flex',
+        filename: 'Google-Sans-Flex-Variable.ttf',
+        axes: {
+            opsz: { min: 6, max: 144, default: 18, step: 1 },
+            wght: { min: 1, max: 1000, default: 400, step: 1 },
+            wdth: { min: 25, max: 151, default: 100, step: 1 },
+            GRAD: { min: 0, max: 100, default: 0, step: 1 },
+            slnt: { min: -10, max: 0, default: 0, step: 0.1 },
+            ROND: { min: 0, max: 100, default: 0, step: 1 }
+        }
+    },
+    'martian-grotesk': {
+        name: 'Martian Grotesk',
+        fontFamily: 'Martian Grotesk',
+        filename: 'Martian-Grotesk-Variable.ttf',
+        axes: {
+            wght: { min: 100, max: 1000, default: 400, step: 1 },
+            wdth: { min: 75, max: 200, default: 100, step: 1 }
+        }
+    }
 };
+
+// Default values for axes (font variations) - will be set dynamically
+let axisDefaults = {};
 
 // Default values for CSS-only parameters (not in font file)
 const cssDefaults = {
@@ -39,6 +71,12 @@ const axisShortNames = {
     YTFI: 'yfi'
 };
 
+// Current selected font
+let currentFont = localStorage.getItem('selectedFont');
+if (!currentFont || !fontConfigurations[currentFont]) {
+    currentFont = 'google-sans-flex';
+}
+
 // Load settings from localStorage
 function loadSettings() {
     const savedAxes = localStorage.getItem('fontAxes');
@@ -54,11 +92,133 @@ function loadSettings() {
 function saveSettings() {
     localStorage.setItem('fontAxes', JSON.stringify(axes));
     localStorage.setItem('fontCSS', JSON.stringify(cssParams));
-    localStorage.setItem('fontFeatures', JSON.stringify(features));
     localStorage.setItem('theme', currentTheme);
     localStorage.setItem('previewText', previewElement.value);
     localStorage.setItem('opszAuto', opszAuto);
+    localStorage.setItem('selectedFont', currentFont);
 }
+// [SKIPPED SOME LINES, RESUMING FROM generateFilename]
+
+// Download button handler (only sends axes, NOT CSS params!)
+document.getElementById('download-btn').addEventListener('click', async () => {
+    const button = document.getElementById('download-btn');
+    button.disabled = true;
+    button.classList.add('loading');
+
+    const spinner = document.createElement('span');
+    spinner.className = 'spinner';
+    button.appendChild(spinner);
+
+    try {
+        const config = fontConfigurations[currentFont];
+
+        // Only send axes (font variations), NOT CSS parameters!
+        const response = await fetch('/generate-font', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                axes,
+                font: config.filename  // Send current font filename
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Font generation failed');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = generateFilename();
+        document.body.appendChild(a);
+        a.click();
+
+        // specific timeout to allow download to start
+        setTimeout(() => {
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }, 100);
+
+        button.classList.remove('loading');
+        spinner.remove();
+        button.disabled = false;
+    } catch (error) {
+        console.error('Error generating font:', error);
+        alert('Error generating font. Make sure the server is running on port 8000.');
+        button.classList.remove('loading');
+        spinner.remove();
+        button.disabled = false;
+    }
+});
+
+// WOFF2 Download button handler
+document.getElementById('download-woff2-btn').addEventListener('click', async () => {
+    const button = document.getElementById('download-woff2-btn');
+    button.disabled = true;
+    button.classList.add('loading');
+
+    const spinner = document.createElement('span');
+    spinner.className = 'spinner';
+    button.appendChild(spinner);
+
+    try {
+        const config = fontConfigurations[currentFont];
+
+        // Send request for WOFF2 format
+        const response = await fetch('/generate-font-woff2', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                axes,
+                font: config.filename  // Send current font filename
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('WOFF2 generation failed');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = generateFilename().replace('.ttf', '.woff2');
+        document.body.appendChild(a);
+        a.click();
+
+        // specific timeout to allow download to start
+        setTimeout(() => {
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }, 100);
+
+        button.classList.remove('loading');
+        spinner.remove();
+        button.disabled = false;
+    } catch (error) {
+        console.error('Error generating WOFF2:', error);
+        alert('Error generating WOFF2. Make sure the server is running on port 8000.');
+        button.classList.remove('loading');
+        spinner.remove();
+        button.disabled = false;
+    }
+});
+
+// Initialize axis defaults based on current font
+function initializeAxisDefaults() {
+    const config = fontConfigurations[currentFont];
+    axisDefaults = {};
+    Object.keys(config.axes).forEach(axis => {
+        axisDefaults[axis] = config.axes[axis].default;
+    });
+}
+
+initializeAxisDefaults();
 
 // Font variation axes (these go into the generated font file)
 const settings = loadSettings();
@@ -66,15 +226,6 @@ let axes = settings.axes;
 
 // CSS-only parameters (for preview only, NOT in font file)
 let cssParams = settings.css;
-
-// OpenType features
-const savedFeatures = localStorage.getItem('fontFeatures');
-let features = savedFeatures ? JSON.parse(savedFeatures) : {
-    liga: true,
-    locl: false,
-    pnum: false,
-    rvrn: true
-};
 
 // Optical size auto mode
 let opszAuto = localStorage.getItem('opszAuto') === 'true' || localStorage.getItem('opszAuto') === null;
@@ -98,22 +249,13 @@ previewElement.addEventListener('input', () => {
 
 // Update font variation settings
 function updateFontVariations() {
+    const config = fontConfigurations[currentFont];
     const variationSettings = Object.entries(axes)
+        .filter(([axis]) => config.axes[axis])  // Only include axes supported by current font
         .map(([axis, value]) => `'${axis}' ${value}`)
         .join(', ');
 
     previewElement.style.fontVariationSettings = variationSettings;
-    saveSettings();
-}
-
-// Update OpenType features
-function updateFontFeatures() {
-    const featureSettings = Object.entries(features)
-        .filter(([, enabled]) => enabled)
-        .map(([feature]) => `'${feature}'`)
-        .join(', ');
-
-    previewElement.style.fontFeatureSettings = featureSettings || 'normal';
     saveSettings();
 }
 
@@ -129,6 +271,8 @@ function updateCSSProperties() {
 function updateOpszAuto() {
     const opszSlider = document.getElementById('opsz');
     const opszInput = document.getElementById('opsz-value');
+
+    if (!opszSlider || !opszInput) return;  // opsz may not exist for all fonts
 
     if (opszAuto) {
         // Set opsz to current font size
@@ -156,6 +300,97 @@ function updateTheme(theme) {
     });
 
     saveSettings();
+}
+
+// Show/hide axis controls based on current font
+function updateAxisVisibility() {
+    const config = fontConfigurations[currentFont];
+
+    // Get all control groups
+    const allAxes = ['opsz', 'wght', 'GRAD', 'wdth', 'slnt', 'XOPQ', 'YOPQ', 'XTRA', 'YTUC', 'YTLC', 'YTAS', 'YTDE', 'YTFI'];
+
+    allAxes.forEach(axis => {
+        const controlGroup = document.getElementById(axis)?.closest('.control-group');
+        if (controlGroup) {
+            if (config.axes[axis]) {
+                controlGroup.style.display = 'block';
+
+                // Update min, max, step, and default values
+                const slider = document.getElementById(axis);
+                const input = document.getElementById(`${axis}-value`);
+                const resetBtn = document.querySelector(`.reset-btn[data-param="${axis}"]`);
+
+                if (slider && input) {
+                    slider.min = config.axes[axis].min;
+                    slider.max = config.axes[axis].max;
+                    slider.step = config.axes[axis].step;
+                    input.min = config.axes[axis].min;
+                    input.max = config.axes[axis].max;
+                    input.step = config.axes[axis].step;
+                }
+
+                if (resetBtn) {
+                    resetBtn.dataset.default = config.axes[axis].default;
+                }
+            } else {
+                controlGroup.style.display = 'none';
+            }
+        }
+    });
+}
+
+// Switch font
+function switchFont(fontId, savedAxes = null) {
+    currentFont = fontId;
+    const config = fontConfigurations[fontId];
+
+    // Update preview font family
+    previewElement.style.fontFamily = `'${config.fontFamily}', sans-serif`;
+
+    // Reset axes to new font's defaults or use saved values
+    initializeAxisDefaults();
+
+    // If savedAxes are provided and match the current font (basic check), use them
+    // Otherwise use defaults
+    if (savedAxes) {
+        axes = { ...axisDefaults, ...savedAxes };
+    } else {
+        axes = { ...axisDefaults };
+    }
+
+    // Update UI
+    updateAxisVisibility();
+
+    // Reset all sliders and inputs to new values
+    Object.keys(config.axes).forEach(axis => {
+        const slider = document.getElementById(axis);
+        const input = document.getElementById(`${axis}-value`);
+
+        if (slider && input) {
+            // Use current value from axes object (which is either saved or default)
+            const currentValue = axes[axis];
+            slider.value = currentValue;
+            input.value = currentValue;
+        }
+    });
+
+    // Update opsz auto if applicable
+    if (config.axes.opsz) {
+        updateOpszAuto();
+    }
+
+    updateFontVariations();
+    saveSettings();
+}
+
+// Font selector change
+const fontSelector = document.getElementById('font-selector');
+if (fontSelector) {
+    fontSelector.value = currentFont;
+
+    fontSelector.addEventListener('change', (e) => {
+        switchFont(e.target.value);
+    });
 }
 
 // Theme switcher
@@ -188,7 +423,7 @@ if (sizeSlider && sizeInput) {
         cssParams.size = parseInt(e.target.value);
         sizeInput.value = cssParams.size;
         updateCSSProperties();
-        if (opszAuto) updateOpszAuto();
+        if (opszAuto && fontConfigurations[currentFont].axes.opsz) updateOpszAuto();
     });
 
     sizeInput.addEventListener('input', (e) => {
@@ -202,7 +437,7 @@ if (sizeSlider && sizeInput) {
         cssParams.size = value;
         sizeSlider.value = value;
         updateCSSProperties();
-        if (opszAuto) updateOpszAuto();
+        if (opszAuto && fontConfigurations[currentFont].axes.opsz) updateOpszAuto();
     });
 }
 
@@ -263,7 +498,7 @@ if (lineHeightSlider && lineHeightInput) {
 }
 
 // Initialize variation axes sliders and inputs
-Object.keys(axisDefaults).forEach(param => {
+Object.keys(fontConfigurations[currentFont].axes).forEach(param => {
     const slider = document.getElementById(param);
     const input = document.getElementById(`${param}-value`);
 
@@ -314,7 +549,7 @@ document.querySelectorAll('.reset-btn').forEach(btn => {
             slider.value = defaultValue;
             input.value = defaultValue;
             updateCSSProperties();
-            if (param === 'size' && opszAuto) updateOpszAuto();
+            if (param === 'size' && opszAuto && fontConfigurations[currentFont].axes.opsz) updateOpszAuto();
         } else {
             // Font variation axes
             axes[param] = defaultValue;
@@ -329,13 +564,15 @@ document.querySelectorAll('.reset-btn').forEach(btn => {
 
 // Global Reset All button
 document.getElementById('reset-all-btn').addEventListener('click', () => {
-    // Reset all axes
-    Object.keys(axisDefaults).forEach(param => {
-        axes[param] = axisDefaults[param];
+    const config = fontConfigurations[currentFont];
+
+    // Reset all axes for current font
+    Object.keys(config.axes).forEach(param => {
+        axes[param] = config.axes[param].default;
         const slider = document.getElementById(param);
         const input = document.getElementById(`${param}-value`);
-        if (slider) slider.value = axisDefaults[param];
-        if (input) input.value = axisDefaults[param];
+        if (slider) slider.value = config.axes[param].default;
+        if (input) input.value = config.axes[param].default;
     });
 
     // Reset all CSS parameters
@@ -355,139 +592,36 @@ document.getElementById('reset-all-btn').addEventListener('click', () => {
 
     updateFontVariations();
     updateCSSProperties();
-    updateOpszAuto();
-});
-
-// Initialize checkboxes
-Object.keys(features).forEach(feature => {
-    const checkbox = document.getElementById(feature);
-
-    if (checkbox) {
-        checkbox.checked = features[feature];
-
-        checkbox.addEventListener('change', (e) => {
-            features[feature] = e.target.checked;
-            updateFontFeatures();
-        });
-    }
+    if (config.axes.opsz) updateOpszAuto();
 });
 
 // Generate filename based on modified axes (only axes, not CSS params!)
 function generateFilename() {
+    const config = fontConfigurations[currentFont];
     const modified = [];
 
     Object.entries(axes).forEach(([axis, value]) => {
-        if (value !== axisDefaults[axis]) {
+        if (config.axes[axis] && value !== config.axes[axis].default) {
             const shortName = axisShortNames[axis] || axis.toLowerCase();
             modified.push(`${shortName}${Math.round(value)}`);
         }
     });
 
+    const baseName = config.name.replace(/\s+/g, '');
+
     if (modified.length === 0) {
-        return 'RobotoFlex-Custom.ttf';
+        return `${baseName}-Custom.ttf`;
     }
 
-    return `RobotoFlex-${modified.join('-')}.ttf`;
+    return `${baseName}-${modified.join('-')}.ttf`;
 }
 
-// Download button handler (only sends axes, NOT CSS params!)
-document.getElementById('download-btn').addEventListener('click', async () => {
-    const button = document.getElementById('download-btn');
-    button.disabled = true;
-    button.classList.add('loading');
-
-    const spinner = document.createElement('span');
-    spinner.className = 'spinner';
-    button.appendChild(spinner);
-
-    try {
-        // Only send axes (font variations), NOT CSS parameters!
-        const response = await fetch('/generate-font', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ axes, features })
-        });
-
-        if (!response.ok) {
-            throw new Error('Font generation failed');
-        }
-
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = generateFilename();
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-
-        button.classList.remove('loading');
-        spinner.remove();
-        button.disabled = false;
-    } catch (error) {
-        console.error('Error generating font:', error);
-        alert('Error generating font. Make sure the server is running on port 8000.');
-        button.classList.remove('loading');
-        spinner.remove();
-        button.disabled = false;
-    }
-});
-
-// WOFF2 Download button handler
-document.getElementById('download-woff2-btn').addEventListener('click', async () => {
-    const button = document.getElementById('download-woff2-btn');
-    button.disabled = true;
-    button.classList.add('loading');
-
-    const spinner = document.createElement('span');
-    spinner.className = 'spinner';
-    button.appendChild(spinner);
-
-    try {
-        // Send request for WOFF2 format
-        const response = await fetch('/generate-font-woff2', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ axes, features })
-        });
-
-        if (!response.ok) {
-            throw new Error('WOFF2 generation failed');
-        }
-
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = generateFilename().replace('.ttf', '.woff2');
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-
-        button.classList.remove('loading');
-        spinner.remove();
-        button.disabled = false;
-    } catch (error) {
-        console.error('Error generating WOFF2:', error);
-        alert('Error generating WOFF2. Make sure the server is running on port 8000.');
-        button.classList.remove('loading');
-        spinner.remove();
-        button.disabled = false;
-    }
-});
 
 // Initialize with saved/default values
+// Initialize with saved/default values
+switchFont(currentFont, settings.axes);  // This will set up everything
 updateTheme(currentTheme);
 updateCSSProperties();
-updateFontVariations();
-updateFontFeatures();
-updateOpszAuto();
 
 // Arrow key handling for all number inputs
 document.addEventListener('keydown', (e) => {
